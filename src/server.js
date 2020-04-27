@@ -28,7 +28,7 @@ const secret = 'salt';
 app.use(expressJwt ({
   secret:  secret 
 }).unless({
-  path: ['/api/v1.0/iam/login']  //除了这些地址，其他的URL都需要验证
+  path: ['/api/v1.0/iam/login', '/api/v1.0/iam/code', '/api/v1.0/iam/users']  //除了这些地址，其他的URL都需要验证
 }));
 
 //拦截器
@@ -45,7 +45,7 @@ app.use(bodyParser.urlencoded({limit:'50mb',extended:true}));
 app.all('*', (req, res, next) => {
     res.header('Access-Control-Allow-Credentials', true);
     res.header('Access-Control-Allow-Origin', '*');
-    res.header('Access-Control-Allow-Headers', 'X-Requested-With,content-type,userPhone');
+    res.header('Access-Control-Allow-Headers', 'X-Requested-With,content-type,userPhone,Authorization');
     res.header('Access-Control-Allow-Methods','GET, HEAD, POST, PUT, DELETE, OPTIONS, PATCH');
     res.header('X-Powered-By',' 3.2.1')
     res.header('Content-Type', 'application/json;charset=utf-8');
