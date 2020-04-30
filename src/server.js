@@ -25,19 +25,19 @@ const secret = 'salt';
 
 //使用中间件验证token合法性
 
-app.use(expressJwt ({
-  secret:  secret 
-}).unless({
-  path: ['/api/v1.0/iam/login', '/api/v1.0/iam/code', '/api/v1.0/iam/users']  //除了这些地址，其他的URL都需要验证
-}));
+//app.use(expressJwt ({
+//  secret:  secret 
+//}).unless({
+//  path: ['/api/v1.0/iam/login', '/api/v1.0/iam/code', '/api/v1.0/iam/users']  //除了这些地址，其他的URL都需要验证
+//}));
 
 //拦截器
-app.use(function (err, req, res, next) {
+//app.use(function (err, req, res, next) {
   //当token验证失败时会抛出如下错误
-  if (err.name === 'UnauthorizedError') {   
-      res.status(401).send('invalid token...');
-  }
-});
+//  if (err.name === 'UnauthorizedError') {   
+//      res.status(401).send('invalid token...');
+//  }
+//});
 
 app.use(bodyParser.json({limit:'50mb'}));
 app.use(bodyParser.urlencoded({limit:'50mb',extended:true}));
