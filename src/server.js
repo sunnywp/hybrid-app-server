@@ -238,47 +238,5 @@ app.post('/api/v1.0/iam/login', function (req, res) {
     })
 });
 
-app.post('/api/v1.0/iam/sso/login', function (req, res) {
-    console.log("sso login")
-    var request = {
-        account: '10196470',
-        token: 'a37b98432eb18bc0e5910c0d268c158e',
-        clientIP: '10.68.6.22',
-        systemCode: 'wireless_virtual2_treasure_0001',
-        verifyCode: ''
-    }
-    console.log("req.body:" + JSON.stringify(req.body))
-    request.token = req.body.token;
-    request.account = req.body.account;
-    request.verifyCode = md5(request.account + request.token + request.clientIP + request.systemCode)
-    var postData = JSON.stringify(request);
-    console.log("sso login, body:" + postData)
-    var request_option = {
-        protocol: 'https:',
-        method: 'POST',
-        host: 'uac.zte.com.cn',
-        port: 443,
-        headers: {
-            "Content-Type": 'application/json',
-            "Content-Length": postData.length
-        },
-        path: '/uactoken/auth/token/verify.serv'
-    }
-    var req = https.request(request_option, function (_res) {
-        var content = '';
-        _res.setEncoding('utf-8');
-        _res.on('data', function (chunk) {
-            content += chunk;
-
-        });
-        _res.on('end', function () {
-            res.status(200).send(content.toString())
-        });
-    });
-
-    req.write(postData);
-    req.end();
-})
-
 app.listen(3000);
 
