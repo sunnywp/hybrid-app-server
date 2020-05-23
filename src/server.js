@@ -158,6 +158,23 @@ app.put('/api/v1.0/iam/users/:id/pwd', function (req, res) {
     })
 });
 
+app.put('/api/v1.0/iam/retrievePwd', function (req, res) {
+    const id = req.params['id']
+    if (!req.body) return res.sendStatus(400);
+    User.findOne({'name': req.body['name']}).then((person) => {
+            User.updateOne({"usrId": person.usrId}, {"password": req.body.password}).then(() => {
+                res.status(200).json({});
+            }, () => {
+                res.status(400).json({"error": "找回密码失败，数据库异常"});
+            })
+        }
+    , () => {
+        res.status(400).json({"error": "用户不存在"});
+    }).catch(() => {
+        res.status(500).json({"error": "内部错误"});
+    });
+});
+
 
 app.post('/api/v1.0/iam/users', function (req, res) {
     if (!req.body) return res.sendStatus(400);
